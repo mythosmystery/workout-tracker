@@ -1,6 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const routes = require('./controllers/api.js');
+const path = require('path');
+
 const PORT = process.env.PORT || 3000;
 
 const app = express();
@@ -13,10 +15,19 @@ app.use(express.static('public'));
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/workouts', {
    useNewUrlParser: true,
    useFindAndModify: false,
+   useUnifiedTopology: true,
+   useCreateIndex: true,
 });
 
-// routes
 app.use(routes);
+
+app.get('/exercise', async (req, res) => {
+   res.sendFile(path.join(__dirname, '../public/exercise.html'));
+});
+
+app.get('/stats', async (req, res) => {
+   res.sendFile(path.join(__dirname, '../public/stats.html'));
+});
 
 app.listen(PORT, () => {
    console.log(`App running on port ${PORT}!`);
