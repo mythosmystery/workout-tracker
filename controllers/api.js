@@ -21,6 +21,7 @@ router.post('/workouts', async (req, res) => {
 
 router.put('/workouts/:id', async (req, res) => {
    try {
+      console.log(req.body);
       const newWorkout = await Workout.findByIdAndUpdate(
          req.params.id,
          {
